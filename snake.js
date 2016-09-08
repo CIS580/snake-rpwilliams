@@ -31,14 +31,11 @@ var apple_y;
 var eaten_apple = false;
 
 var score;
+var flag = false;
 
-var input = 
-{
-  up: false,
-  down: false,
-  left: false,
-  right: false
-}
+
+var spaceBar = false;
+
 /* end global variables */
 
 /**
@@ -105,17 +102,34 @@ function grow_snake(length, snakeX, snakeY)
  */
 function loop(newTime) 
 {
-  var elapsedTime = newTime - oldTime;
-  oldTime = newTime;  // Ensures the old time is always the last frame
+	if(!flag)
+	{
+		var elapsedTime = newTime - oldTime;
+  		oldTime = newTime;  // Ensures the old time is always the last frame
 
-  update(elapsedTime);
-  render(elapsedTime);
+		update(elapsedTime);
+		render(elapsedTime);
 
-  // Flip the back buffer
-  frontCtx.drawImage(backBuffer, 0, 0);
-
-  // Run the next loop
-  window.requestAnimationFrame(loop);
+		// Flip the back buffer
+		frontCtx.drawImage(backBuffer, 0, 0);
+	}  
+	else
+	{
+		if(spaceBar)
+		{
+			document.getElementById('try again').innerHTML = "";
+			flag = false;
+			console.log("resetting!");
+			init();
+		}
+		else
+		{
+			document.getElementById('try again').innerHTML = "Press space to continue";
+		}		
+	}
+	// Run the next loop
+	window.requestAnimationFrame(loop);
+	
 }
 
 /**
@@ -134,7 +148,8 @@ function update(elapsedTime)
   if(check_collision(snake[0].x, snake[0].y, snake) || snake[0].x > 750 || snake[0].x < 0
     || snake[0].y > 480 || snake[0].y < 0)
   {
-   init(); // Restart the game without pausing
+  	//location.reload(); 
+  	stop();
   }
   check_apple_collision();
 }
@@ -149,8 +164,7 @@ function render(elapsedTime)
 {
   backCtx.clearRect(0, 0, backBuffer.width, backBuffer.height);
   frontCtx.clearRect(0, 0, frontBuffer.width, frontBuffer.height);
-  paint();
-  
+  paint();  
 }
 
 /**
@@ -272,7 +286,10 @@ function move(speed)
   }
 }
 
-
+function stop()
+{
+	flag = true;
+}
 
 window.onkeydown = function(event)
 {
@@ -313,11 +330,23 @@ window.onkeydown = function(event)
         current_direction = "down";
       }
       break;
+   case 32:
+      spaceBar = true;
+      break;
   }
 }
 
+window.onkeyup = function(event)
+{
+	if(event.keyCode == 32)
+	{
+		spaceBar = false;
+	}   
+}
 
 /* Launch the game */
 window.requestAnimationFrame(loop); 
+
+
 
 
