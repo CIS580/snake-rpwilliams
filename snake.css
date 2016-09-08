@@ -17,14 +17,39 @@ canvas#snake {
   margin: auto;
 }
 
+.instructions
+{
+  position: absolute;
+  top: 50%;
+  bottom: 50%;
+  left: 0;
+  right: 0;
+}
+
+.instructions2
+{
+  position: absolute;
+  top: 45%;
+  bottom: 45%;
+  left: 0;
+  right: 0;
+}
+
+.instructions3
+{
+  position: absolute;
+  top: 40%;
+  bottom: 40%;
+  left: 0;
+  right: 0;
+}
+
 footer {
    position:fixed;
    left:0px;
    bottom:0px;
-   height:30px;
-   width:auto;
-   height:auto;
-   background:#999;
+   height:30px; 
+   font-size:75%;
 }
 
 img {
@@ -39,23 +64,26 @@ img {
 }
 
 .middle-space {
-  width: 760px;
-  height: 480px;
-
-  position: bottom;
-  top:0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
+  position: absolute;
   margin: auto;
+  top: 50%;
+  left: 40%;
+  right: 40%;
+  bottom: 50%;
 }
 
-.h1-2 { 
-    display: block;
-    font-size: 4em;
-    margin-top: 0.67em;
-    margin-bottom: 0.67em;
-    margin-left: 0;
-    margin-right: 0;
+.middle-score {
+  position: absolute;
+  margin: auto;
+  top: 25%;
+  left: 40%;
+  right: 40%;
+  bottom: 25%;
+}
+
+.p-other
+{
+  font-family: calibri;
+  color: green;
+  font-size:50px;
 }

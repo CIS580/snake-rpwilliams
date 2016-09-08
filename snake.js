@@ -2,7 +2,7 @@
 * Title: snake.js
 * Description: A web version of the classic snake arcade game for CIS 580
 * Author: Ryan Williams
-* Last updated: 9.7.2016
+* Last updated: 9.8.2016
 */
 
 /* Global variables */
@@ -31,10 +31,9 @@ var apple_y;
 var eaten_apple = false;
 
 var score;
-var flag = false;
+var flag = false;	// flag used for game over
 
-
-var spaceBar = false;
+var spaceBar = false;	// spacebar pressed or not pressed
 
 /* end global variables */
 
@@ -117,6 +116,7 @@ function loop(newTime)
 	{
 		if(spaceBar)
 		{
+			document.getElementById('final').innerHTML = "";
 			document.getElementById('try again').innerHTML = "";
 			flag = false;
 			console.log("resetting!");
@@ -124,12 +124,12 @@ function loop(newTime)
 		}
 		else
 		{
-			document.getElementById('try again').innerHTML = "Press space to continue";
+			document.getElementById('final').innerHTML = "Final Score: " + score;
+			document.getElementById('try again').innerHTML = "<b>Press space to continue</b>";
 		}		
 	}
 	// Run the next loop
 	window.requestAnimationFrame(loop);
-	
 }
 
 /**
@@ -206,12 +206,19 @@ var check_collision = function(x, y, array)
   return false;
 }
 
+/*
+ * @function check_apple_collision
+ * Verifies if an apple is within 20 pixels from a player using the distance formula
+ * If it is, the game will stop and restart when the space bar is pressed
+*/
 function check_apple_collision()
 {
+  /* Find the largest x and the largest y between the snake and the apple */
   var smallY;
   var smallX;
   var bigX;
   var bigY;
+
   if(snake[0].x >= apple_x)
   {
     bigX = snake[0].x;
@@ -233,9 +240,14 @@ function check_apple_collision()
     bigY = apple_y;
   }
 
+  /* Calculate the distance between the apple and the player at any given time */
   var apple_distance = Math.abs(Math.sqrt(((bigX - smallX)*(bigX - smallX))
    + ((bigY - smallY)*(bigY - smallY))));
-
+  
+  /* 
+  	If an apple is within 20px of the snake's head, spawn a new apple and grow the snake.
+	To grow the snake we must shift the array
+  */
   if(apple_distance <= 20)
   {
     apple_x = Math.floor((Math.random() * 740) + 1);  // Random x value between 750 and 1
@@ -286,8 +298,19 @@ function move(speed)
   }
 }
 
+/**
+  * @function stop
+  * Stops the game until the spacebar is pressed
+  */
 function stop()
 {
+	/*
+	 * The following is used under the creative commons license
+	 * https://www.freesound.org/people/peepholecircus/sounds/169994/
+	 */
+	var audio = new Audio('power-down.mp3');
+	audio.play();
+
 	flag = true;
 }
 
@@ -338,6 +361,7 @@ window.onkeydown = function(event)
 
 window.onkeyup = function(event)
 {
+	/* We ONLY want the space bar to not stay down if it is pressed */
 	if(event.keyCode == 32)
 	{
 		spaceBar = false;
