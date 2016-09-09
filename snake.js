@@ -176,7 +176,7 @@ function paint()
   if(eaten_apple)
   {
     grow_snake(10, snake[0].x, snake[0].y);
-    snake_speed += 1;
+    snake_speed += .5;
     eaten_apple = false;
   }
   for(i = snake.length - 1; i >= 0; i--)
@@ -248,7 +248,7 @@ function check_apple_collision()
   	If an apple is within 20px of the snake's head, spawn a new apple and grow the snake.
 	To grow the snake we must shift the array
   */
-  if(apple_distance <= 20)
+  if(apple_distance <= 17)
   {
     apple_x = Math.floor((Math.random() * 740) + 1);  // Random x value between 750 and 1
     apple_y = Math.floor((Math.random() * 460) + 1);  // Random y value between 470 and 1
